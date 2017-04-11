@@ -8,9 +8,7 @@ package views;
 import java.beans.PropertyVetoException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -23,12 +21,17 @@ public class FrmPrincipal extends javax.swing.JFrame {
      */
     
     JIFrameConfiguracoes jifConfig = new JIFrameConfiguracoes();
+    JIFramePrincipal jifPrincipal = new JIFramePrincipal();
     
     public FrmPrincipal() throws PropertyVetoException {
         initComponents();
         this.setExtendedState(this.getExtendedState()|JFrame.MAXIMIZED_BOTH);
+        jDesktopPane1.add(jifPrincipal);
         jDesktopPane1.add(jifConfig);
+        jifPrincipal.setMaximum(true);
         jifConfig.setMaximum(true);
+        jifPrincipal.show();
+        jDesktopPane1.moveToFront(jifPrincipal);
     }
 
     /**
@@ -40,6 +43,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jToggleButton1 = new javax.swing.JToggleButton();
         jToggleButton2 = new javax.swing.JToggleButton();
@@ -49,9 +53,16 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
+        buttonGroup1.add(jToggleButton1);
         jToggleButton1.setText("Principal");
+        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton1ActionPerformed(evt);
+            }
+        });
         jPanel1.add(jToggleButton1);
 
+        buttonGroup1.add(jToggleButton2);
         jToggleButton2.setText("Configurações");
         jToggleButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -59,6 +70,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
             }
         });
         jPanel1.add(jToggleButton2);
+        jToggleButton2.getAccessibleContext().setAccessibleDescription("");
 
         javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
         jDesktopPane1.setLayout(jDesktopPane1Layout);
@@ -97,7 +109,14 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
     private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton2ActionPerformed
         jifConfig.show();
+        jDesktopPane1.moveToFront(jifConfig);
+        
     }//GEN-LAST:event_jToggleButton2ActionPerformed
+
+    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
+        jifPrincipal.show();
+        jDesktopPane1.moveToFront(jifPrincipal);
+    }//GEN-LAST:event_jToggleButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -139,6 +158,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JToggleButton jToggleButton1;

@@ -5,6 +5,7 @@
  */
 package ikatootrader;
 
+import java.beans.PropertyVetoException;
 import views.FrmPrincipal;
 
 /**
@@ -16,7 +17,7 @@ public class IKatooTrader {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws PropertyVetoException {
         FrmPrincipal graficos = new FrmPrincipal();
         graficos.setVisible(true);
     }
