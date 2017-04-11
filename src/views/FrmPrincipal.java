@@ -26,12 +26,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
     public FrmPrincipal() throws PropertyVetoException {
         initComponents();
         this.setExtendedState(this.getExtendedState()|JFrame.MAXIMIZED_BOTH);
-        jDesktopPane1.add(jifPrincipal);
-        jDesktopPane1.add(jifConfig);
+        jdp.add(jifPrincipal);
+        jdp.add(jifConfig);
         jifPrincipal.setMaximum(true);
-        jifConfig.setMaximum(true);
         jifPrincipal.show();
-        jDesktopPane1.moveToFront(jifPrincipal);
+        jdp.moveToFront(jifPrincipal);
     }
 
     /**
@@ -47,7 +46,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jToggleButton1 = new javax.swing.JToggleButton();
         jToggleButton2 = new javax.swing.JToggleButton();
-        jDesktopPane1 = new javax.swing.JDesktopPane();
+        jdp = new javax.swing.JDesktopPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -72,14 +71,16 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jPanel1.add(jToggleButton2);
         jToggleButton2.getAccessibleContext().setAccessibleDescription("");
 
-        javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
-        jDesktopPane1.setLayout(jDesktopPane1Layout);
-        jDesktopPane1Layout.setHorizontalGroup(
-            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        jdp.setAutoscrolls(true);
+
+        javax.swing.GroupLayout jdpLayout = new javax.swing.GroupLayout(jdp);
+        jdp.setLayout(jdpLayout);
+        jdpLayout.setHorizontalGroup(
+            jdpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
-        jDesktopPane1Layout.setVerticalGroup(
-            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        jdpLayout.setVerticalGroup(
+            jdpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 426, Short.MAX_VALUE)
         );
 
@@ -90,7 +91,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jDesktopPane1)
+                    .addComponent(jdp)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 712, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -100,7 +101,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jDesktopPane1)
+                .addComponent(jdp)
                 .addContainerGap())
         );
 
@@ -109,13 +110,13 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
     private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton2ActionPerformed
         jifConfig.show();
-        jDesktopPane1.moveToFront(jifConfig);
+        jdp.moveToFront(jifConfig);
         
     }//GEN-LAST:event_jToggleButton2ActionPerformed
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
         jifPrincipal.show();
-        jDesktopPane1.moveToFront(jifPrincipal);
+        jdp.moveToFront(jifPrincipal);
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
     /**
@@ -159,9 +160,9 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JToggleButton jToggleButton2;
+    private javax.swing.JDesktopPane jdp;
     // End of variables declaration//GEN-END:variables
 }
