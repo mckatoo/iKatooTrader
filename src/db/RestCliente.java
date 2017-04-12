@@ -5,31 +5,31 @@
  */
 package db;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import java.net.MalformedURLException;
 
 
 /**
  *
  * @author cpd
  */
-public class TradeRestCliente {
+public class RestCliente {
     
     String urlBase = "https://ikatootrading.firebaseio.com/";
     
-    public List<Cliente> Consulta() throws MalformedURLException,IOException {
-        List<Cliente> listaClientes;
+    public String Consulta() throws MalformedURLException,IOException {
+        String listaClientes;
         Gson jsonClientes = new Gson();
 		
-        HttpURLConnection con = (HttpURLConnection)(new URL(urlBase.concat("/clientes.json"))).openConnection();
+        HttpURLConnection con = (HttpURLConnection)(new URL(urlBase.concat("clientes.json"))).openConnection();
         con.setRequestMethod("GET");
         con.setRequestProperty("Accept", "application/json");
 
@@ -42,10 +42,12 @@ public class TradeRestCliente {
                 resultado.append(line);
             }
             
-            Type collectionType = new TypeToken<List<Cliente>>(){}.getType();
-            listaClientes = jsonClientes.fromJson(resultado.toString(), collectionType);
+            listaClientes = resultado.toString();
+            
             return listaClientes;
-        }
+        }    
+        
+        
         return null;
     }
     
