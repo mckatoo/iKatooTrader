@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package views;
+
 import db.Cliente;
 import db.RestCliente;
 import java.io.IOException;
@@ -12,7 +13,10 @@ import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import uteis.Seguranca;
+import sun.font.LayoutPathImpl;
+import uteis.Cleaner;
+import uteis.Security;
+import uteis.Validation;
 
 /**
  *
@@ -26,6 +30,7 @@ public class JIFrameConfiguracoes extends javax.swing.JInternalFrame {
     public JIFrameConfiguracoes() {
         initComponents();
     }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -47,19 +52,37 @@ public class JIFrameConfiguracoes extends javax.swing.JInternalFrame {
         chkTrading = new javax.swing.JCheckBox();
         chkRetirada = new javax.swing.JCheckBox();
         txtNome = new javax.swing.JTextField();
-        txtEMail = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        txtSenha = new javax.swing.JPasswordField();
-        jLabel6 = new javax.swing.JLabel();
         txtUser = new javax.swing.JTextField();
-        jButton3 = new javax.swing.JButton();
+        txtEMail = new javax.swing.JTextField();
+        txtSenha = new javax.swing.JPasswordField();
         txtConfirmSenha = new javax.swing.JPasswordField();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        btnSalvar = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
 
         setClosable(true);
-        setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setMaximizable(true);
         setResizable(true);
+        setName("JIFrameConfiguracoes"); // NOI18N
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameClosing(evt);
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+            }
+        });
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Configurações"));
 
@@ -73,9 +96,15 @@ public class JIFrameConfiguracoes extends javax.swing.JInternalFrame {
 
         jLabel4.setText("Secret:");
 
+        txtPoloniexKey.setNextFocusableComponent(txtPoloniexSecret);
+
+        txtPoloniexSecret.setNextFocusableComponent(chkTrading);
+
         chkTrading.setText("Habilitar Trading");
+        chkTrading.setNextFocusableComponent(chkRetirada);
 
         chkRetirada.setText("Habilitar Retirada");
+        chkRetirada.setNextFocusableComponent(btnSalvar);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -95,8 +124,8 @@ public class JIFrameConfiguracoes extends javax.swing.JInternalFrame {
                             .addComponent(jLabel4))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtPoloniexKey)
-                            .addComponent(txtPoloniexSecret))))
+                            .addComponent(txtPoloniexSecret)
+                            .addComponent(txtPoloniexKey))))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -115,14 +144,22 @@ public class JIFrameConfiguracoes extends javax.swing.JInternalFrame {
                     .addComponent(chkRetirada)))
         );
 
+        txtNome.setNextFocusableComponent(txtUser);
+
+        txtUser.setNextFocusableComponent(txtEMail);
+
+        txtEMail.setNextFocusableComponent(txtSenha);
+
+        txtSenha.setNextFocusableComponent(txtPoloniexKey);
+
         jLabel5.setText("Senha:");
 
         jLabel6.setText("Username:");
 
-        jButton3.setText("Salvar");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btnSalvar.setText("Salvar");
+        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btnSalvarActionPerformed(evt);
             }
         });
 
@@ -136,7 +173,7 @@ public class JIFrameConfiguracoes extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnSalvar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel5)
@@ -146,11 +183,11 @@ public class JIFrameConfiguracoes extends javax.swing.JInternalFrame {
                             .addComponent(jLabel7))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtConfirmSenha)
                             .addComponent(txtSenha)
                             .addComponent(txtEMail)
                             .addComponent(txtUser)
-                            .addComponent(txtNome, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(txtConfirmSenha))))
+                            .addComponent(txtNome, javax.swing.GroupLayout.Alignment.TRAILING))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -179,7 +216,7 @@ public class JIFrameConfiguracoes extends javax.swing.JInternalFrame {
                 .addGap(1, 1, 1)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton3)
+                .addComponent(btnSalvar)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -203,30 +240,44 @@ public class JIFrameConfiguracoes extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        try {                                         
+    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+        if (Validation.validaPanel(jPanel1) || Validation.validaPanel(jPanel2)) {
+            JOptionPane.showMessageDialog(null,"Todos os campos devem estar preenchidos!");
+            return;
+        }
+        try {
             Cliente c = new Cliente();
             c.setNome(txtNome.getText());
             c.setUser(txtUser.getText());
-            c.setEMail(txtEMail.getText());
+            if (Validation.email(txtEMail.getText())) {
+                c.setEMail(txtEMail.getText());
+            } else {
+                JOptionPane.showMessageDialog(null, "Email inválido");
+                txtEMail.setText("");
+                txtEMail.requestFocus();
+                return;
+            }
             String senha = String.valueOf(txtSenha.getPassword());
             String confirmSenha = String.valueOf(txtConfirmSenha.getPassword());
             c.setPoloniexKey(txtPoloniexKey.getText());
             c.setPoloniexSecret(txtPoloniexSecret.getText());
+            c.setHabilitarTrading(String.valueOf(chkTrading.isSelected()));
+            c.setHabilitarRetirada(String.valueOf(chkRetirada.isSelected()));
             
-            if ( senha.equals(confirmSenha)) {
-                c.setSenha(Seguranca.Criptografar(senha));
+            if (Validation.senha(senha, confirmSenha)) {
+                c.setSenha(Security.Criptografar(senha));
             } else {
                 JOptionPane.showMessageDialog(null, "As senhas não conferem.");
                 txtSenha.setText("");
                 txtConfirmSenha.setText("");
                 txtSenha.requestFocus();
+                return;
             }
             
             System.out.println(c.toJson());
             RestCliente rCliente = new RestCliente();
             rCliente.Salva("clientes.json", c.toJson());
-            moveToBack();
+            Fechar();
         } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
             Logger.getLogger(JIFrameConfiguracoes.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -234,13 +285,25 @@ public class JIFrameConfiguracoes extends javax.swing.JInternalFrame {
         } catch (Exception ex) {
             Logger.getLogger(JIFrameConfiguracoes.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_jButton3ActionPerformed
+        
+    }//GEN-LAST:event_btnSalvarActionPerformed
 
+    private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
+        Fechar();
+    }//GEN-LAST:event_formInternalFrameClosing
+
+    private int Fechar() {
+        moveToBack();
+        Cleaner.limpaPanel(jPanel1);
+        Cleaner.limpaPanel(jPanel2);
+        
+        return javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnSalvar;
     private javax.swing.JCheckBox chkRetirada;
     private javax.swing.JCheckBox chkTrading;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

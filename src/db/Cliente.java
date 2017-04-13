@@ -22,8 +22,10 @@ public class Cliente {
     private String Senha;
     private String PoloniexKey;
     private String PoloniexSecret;
+    private String HabilitarTrading;
+    private String HabilitarRetirada;
 
-    public Cliente(String Nome, String User, String EMail, String Senha, String PoloniexKey, String PoloniexSecret) {
+    public Cliente(String Nome, String User, String EMail, String Senha, String PoloniexKey, String PoloniexSecret, String HabilitarTrading, String HabilitarRetirada) {
         this.Data_Cadastro = DataHora_Atual();
         this.Nome = Nome;
         this.User = User;
@@ -31,6 +33,8 @@ public class Cliente {
         this.Senha = Senha;
         this.PoloniexKey = PoloniexKey;
         this.PoloniexSecret = PoloniexSecret;
+        this.HabilitarTrading = HabilitarTrading;
+        this.HabilitarRetirada = HabilitarRetirada;
     }
     
     public Cliente(){
@@ -89,6 +93,22 @@ public class Cliente {
         this.PoloniexSecret = PoloniexSecret;
     }
 
+    public String getHabilitarTrading() {
+        return HabilitarTrading;
+    }
+
+    public void setHabilitarTrading(String HabilitarTrading) {
+        this.HabilitarTrading = HabilitarTrading;
+    }
+
+    public String getHabilitarRetirada() {
+        return HabilitarRetirada;
+    }
+
+    public void setHabilitarRetirada(String HabilitarRetirada) {
+        this.HabilitarRetirada = HabilitarRetirada;
+    }
+
     public String DataHora_Atual() {
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Date date = new Date();
@@ -104,6 +124,8 @@ public class Cliente {
                 "\",\"email\":\""+this.EMail+
                 "\",\"poloniex_key\":\""+this.PoloniexKey+
                 "\",\"poloniex_secret\":\""+this.PoloniexSecret+
+                "\",\"habilitar_trading\":\""+this.HabilitarTrading+
+                "\",\"habilitar_retirada\":\""+this.HabilitarRetirada+
                 "\"}";
         return json;
     }
@@ -125,6 +147,10 @@ public class Cliente {
         builder.append(PoloniexKey);
         builder.append(", poloniex_secret=");
         builder.append(PoloniexSecret);
+        builder.append(", habilitar_trading=");
+        builder.append(HabilitarTrading);
+        builder.append(", habilitar_retirada=");
+        builder.append(HabilitarRetirada);
         return builder.toString();
     }
     

@@ -13,7 +13,7 @@ import java.security.NoSuchAlgorithmException;
  *
  * @author cpd
  */
-public class Seguranca {
+public class Security {
     public static String Criptografar(String original) throws NoSuchAlgorithmException, UnsupportedEncodingException{
         MessageDigest algorithm = MessageDigest.getInstance("SHA-256");
         byte messageDigest[] = algorithm.digest(original.getBytes("UTF-8"));
