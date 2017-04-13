@@ -6,15 +6,14 @@
 package db;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
-import java.util.List;
 
 
 /**
@@ -23,32 +22,76 @@ import java.util.List;
  */
 public class RestCliente {
     
+    private final String USER_AGENT = "Mozilla/5.0";
+    
     String urlBase = "https://ikatootrading.firebaseio.com/";
     
-    public String Consulta() throws MalformedURLException,IOException {
-        String listaClientes;
-        Gson jsonClientes = new Gson();
-		
-        HttpURLConnection con = (HttpURLConnection)(new URL(urlBase.concat("clientes.json"))).openConnection();
-        con.setRequestMethod("GET");
-        con.setRequestProperty("Accept", "application/json");
+    public String Consulta(String url) throws Exception {
 
-        if(con.getResponseCode() == 200) {
-            BufferedReader br = new BufferedReader(new InputStreamReader((con.getInputStream())));
-            StringBuilder resultado = new StringBuilder();
-            String line;
-            
-            while((line = br.readLine()) != null) {
-                resultado.append(line);
+        URL obj = new URL(urlBase+url);
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+        
+        con.setRequestMethod("GET");
+        
+        con.setRequestProperty("User-Agent", USER_AGENT);
+
+        int responseCode = con.getResponseCode();
+        System.out.println("\nSending 'GET' request to URL : " + url);
+        System.out.println("Response Code : " + responseCode);
+
+        StringBuilder response;
+        try (BufferedReader in = new BufferedReader(
+                new InputStreamReader(con.getInputStream()))) {
+            String inputLine;
+            response = new StringBuilder();
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
             }
-            
-            listaClientes = resultado.toString();
-            
-            return listaClientes;
-        }    
+        }
         
-        
-        return null;
+        System.out.println(response.toString());
+
+        return response.toString();
+
+    }
+    
+    
+    public void Salva(String url, String urlParameters) throws Exception {
+
+        URL obj = new URL(urlBase+url);
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+        //add header
+        con.setRequestMethod("POST");
+        con.setRequestProperty("Content-Type", "application/json");
+        con.setRequestProperty("User-Agent", USER_AGENT);
+        con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
+
+		//String urlParameters = "sn=C02G8416DRJM&cn=&locale=&caller=&num=12345";
+        // Send post request
+        con.setDoOutput(true);
+        DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+        wr.writeBytes(urlParameters);
+        wr.flush();
+        wr.close();
+
+        int responseCode = con.getResponseCode();
+        System.out.println("\nSending 'POST' request to URL : " + url);
+        System.out.println("Post parameters : " + urlParameters);
+        System.out.println("Response Code : " + responseCode);
+
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(con.getInputStream()));
+        String inputLine;
+        StringBuffer response = new StringBuffer();
+
+        while ((inputLine = in.readLine()) != null) {
+            response.append(inputLine);
+        }
+        in.close();
+
+        //print result
+        System.out.println(response.toString());
+
     }
     
 }

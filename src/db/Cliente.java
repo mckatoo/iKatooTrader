@@ -5,7 +5,6 @@
  */
 package db;
 
-import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -17,16 +16,16 @@ import java.util.Date;
 
 public class Cliente {
     private String Nome;
-    private Timestamp Data_Cadastro;
+    private String Data_Cadastro;
     private String User;
     private String EMail;
     private String Senha;
     private String PoloniexKey;
     private String PoloniexSecret;
 
-    public Cliente(String Nome, Timestamp Data_Cadastro, String User, String EMail, String Senha, String PoloniexKey, String PoloniexSecret) {
+    public Cliente(String Nome, String User, String EMail, String Senha, String PoloniexKey, String PoloniexSecret) {
+        this.Data_Cadastro = DataHora_Atual();
         this.Nome = Nome;
-        this.Data_Cadastro = Data_Cadastro;
         this.User = User;
         this.EMail = EMail;
         this.Senha = Senha;
@@ -35,6 +34,19 @@ public class Cliente {
     }
     
     public Cliente(){
+        this.Data_Cadastro = DataHora_Atual();
+    }
+
+    public String getNome() {
+        return Nome;
+    }
+
+    public void setNome(String Nome) {
+        this.Nome = Nome;
+    }
+
+    public String getData_Cadastro() {
+        return Data_Cadastro;
     }
 
     public String getUser() {
@@ -76,8 +88,8 @@ public class Cliente {
     public void setPoloniexSecret(String PoloniexSecret) {
         this.PoloniexSecret = PoloniexSecret;
     }
-    
-    private String getDateTime() {
+
+    public String DataHora_Atual() {
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Date date = new Date();
         return dateFormat.format(date);
@@ -85,26 +97,15 @@ public class Cliente {
     
     public String toJson(){
         String json = "{"+
-                "nome:'"+this.Nome+
-                ",data_cadastro:'"+getDateTime()+
-                "'}";
+                "\"nome\":\""+this.Nome+
+                "\",\"data_cadastro\":\""+this.Data_Cadastro+
+                "\",\"user\":\""+this.User+
+                "\",\"senha\":\""+this.Senha+
+                "\",\"email\":\""+this.EMail+
+                "\",\"poloniex_key\":\""+this.PoloniexKey+
+                "\",\"poloniex_secret\":\""+this.PoloniexSecret+
+                "\"}";
         return json;
-    }
-
-    public String getNome() {
-        return Nome;
-    }
-
-    public void setNome(String Nome) {
-        this.Nome = Nome;
-    }
-
-    public Timestamp getData_Cadastro() {
-        return Data_Cadastro;
-    }
-
-    public void setData_Cadastro(Timestamp Data_Cadastro) {
-        this.Data_Cadastro = Data_Cadastro;
     }
 
     @Override
@@ -114,6 +115,8 @@ public class Cliente {
         builder.append(Nome);
         builder.append(", data_cadastro=");
         builder.append(Data_Cadastro);
+        builder.append(", senha=");
+        builder.append(Senha);
         builder.append(", user=");
         builder.append(User);
         builder.append(", email=");

@@ -5,6 +5,14 @@
  */
 package views;
 import db.Cliente;
+import db.RestCliente;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import uteis.Seguranca;
 
 /**
  *
@@ -45,7 +53,8 @@ public class JIFrameConfiguracoes extends javax.swing.JInternalFrame {
         jLabel6 = new javax.swing.JLabel();
         txtUser = new javax.swing.JTextField();
         jButton3 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        txtConfirmSenha = new javax.swing.JPasswordField();
+        jLabel7 = new javax.swing.JLabel();
 
         setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
@@ -108,8 +117,6 @@ public class JIFrameConfiguracoes extends javax.swing.JInternalFrame {
 
         jLabel5.setText("Senha:");
 
-        txtSenha.setText("jPasswordField1");
-
         jLabel6.setText("Username:");
 
         jButton3.setText("Salvar");
@@ -119,7 +126,7 @@ public class JIFrameConfiguracoes extends javax.swing.JInternalFrame {
             }
         });
 
-        jButton1.setText("Listar");
+        jLabel7.setText("Confirmar Senha:");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -129,20 +136,21 @@ public class JIFrameConfiguracoes extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel5)
                             .addComponent(jLabel1)
                             .addComponent(jLabel6)
-                            .addComponent(jLabel2))
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel7))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtSenha)
                             .addComponent(txtEMail)
                             .addComponent(txtUser)
-                            .addComponent(txtNome, javax.swing.GroupLayout.Alignment.TRAILING)))
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(txtNome, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txtConfirmSenha))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -164,12 +172,14 @@ public class JIFrameConfiguracoes extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
-                .addGap(27, 27, 27)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtConfirmSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7))
+                .addGap(1, 1, 1)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -194,16 +204,42 @@ public class JIFrameConfiguracoes extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        Cliente c = new Cliente();
-        c.setNome(txtNome.getText());
-        System.out.println(c.toJson());
+        try {                                         
+            Cliente c = new Cliente();
+            c.setNome(txtNome.getText());
+            c.setUser(txtUser.getText());
+            c.setEMail(txtEMail.getText());
+            String senha = String.valueOf(txtSenha.getPassword());
+            String confirmSenha = String.valueOf(txtConfirmSenha.getPassword());
+            c.setPoloniexKey(txtPoloniexKey.getText());
+            c.setPoloniexSecret(txtPoloniexSecret.getText());
+            
+            if ( senha.equals(confirmSenha)) {
+                c.setSenha(Seguranca.Criptografar(senha));
+            } else {
+                JOptionPane.showMessageDialog(null, "As senhas não conferem.");
+                txtSenha.setText("");
+                txtConfirmSenha.setText("");
+                txtSenha.requestFocus();
+            }
+            
+            System.out.println(c.toJson());
+            RestCliente rCliente = new RestCliente();
+            rCliente.Salva("clientes.json", c.toJson());
+            moveToBack();
+        } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
+            Logger.getLogger(JIFrameConfiguracoes.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(JIFrameConfiguracoes.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(JIFrameConfiguracoes.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox chkRetirada;
     private javax.swing.JCheckBox chkTrading;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -211,8 +247,10 @@ public class JIFrameConfiguracoes extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPasswordField txtConfirmSenha;
     private javax.swing.JTextField txtEMail;
     private javax.swing.JTextField txtNome;
     private javax.swing.JTextField txtPoloniexKey;
