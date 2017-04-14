@@ -124,7 +124,7 @@ public class JIFrameConfiguracoes extends javax.swing.JInternalFrame {
                             .addComponent(jLabel4))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtPoloniexSecret)
+							.addComponent(txtPoloniexSecret)
                             .addComponent(txtPoloniexKey))))
                 .addContainerGap())
         );
@@ -150,7 +150,9 @@ public class JIFrameConfiguracoes extends javax.swing.JInternalFrame {
 
         txtEMail.setNextFocusableComponent(txtSenha);
 
-        txtSenha.setNextFocusableComponent(txtPoloniexKey);
+        txtSenha.setNextFocusableComponent(txtConfirmSenha);
+
+        txtConfirmSenha.setNextFocusableComponent(txtPoloniexKey);
 
         jLabel5.setText("Senha:");
 
